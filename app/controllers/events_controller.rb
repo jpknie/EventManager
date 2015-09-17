@@ -2,6 +2,7 @@ class EventsController < ApplicationController
 	before_action :find_event, only: [:show, :update, :edit, :destroy]
 
 	def new
+		@event = Event.new
 	end
 
 	def create
@@ -24,6 +25,10 @@ class EventsController < ApplicationController
 	end
 
 	def destroy
+	end
+
+	def index
+		@events = Event.all
 	end
 
 	private
