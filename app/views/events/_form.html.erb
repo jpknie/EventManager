@@ -1,4 +1,11 @@
-= simple_form_for @entry do |e|
-        = e.input :title
-        = e.input :content
-        = e.button :submit
+<%= simple_form_for @event do |event| %>
+  <%= event.input :title %>
+  <%= event.input :description %>
+  <%= event.input :start_date %>
+  <%= event.input :end_date %>
+  <h2>Location information</h2>
+  <%= event.input :address %>
+  <%= event.input :homepage %>
+  <%= event.input :phonenumber %>
+  <%= event.button :submit %>
+<% end %>
