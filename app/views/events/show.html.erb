@@ -1,1 +1,10 @@
-Events show view
+<h2> <%= @event.title %> </h2>
+<p> <%= @event.description %> </p>
+<p> <%= @event.start_date %> to <%= @event.end_date %> </p>
+<h2> Contact details </h2>
+<p> <%= @event.phonenumber %> </p>
+<p> <%= @event.homepage %> </p>
+
+<%= form_tag(controller: "events", action: "update_user_attendance", method: "post", event_id: @event.id) %>
+<%= select(:attendance, :attendance_status, options_for_select(Attendance::STATUSES.each_with_index.map { |i, s| [i, s] }, selected_status), {include_blank: true}) %>
+<%= submit_tag("Save") %>
