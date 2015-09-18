@@ -1,9 +1,10 @@
 class CreateLocations < ActiveRecord::Migration
   def change
     create_table :locations do |t|
-      t.text :address
+      t.string :name
+      t.string :address
       t.string :homepage
-      t.string :phone
+      t.string :phonenumber
 
       t.timestamps
     end

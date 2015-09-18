@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
   get 'welcome/index'
+  resources :locations
+
   resources :events do
     collection do
       post :update_user_attendance

@@ -1,10 +1,32 @@
 <h2> <%= @event.title %> </h2>
 <p> <%= @event.description %> </p>
 <p> <%= @event.start_date %> to <%= @event.end_date %> </p>
-<h2> Contact details </h2>
-<p> <%= @event.phonenumber %> </p>
-<p> <%= @event.homepage %> </p>
+
+<% if location.present? %>
+	<h2> Location details </h2>
+	<p> <%= location.name %> </p>
+	<p> <%= location.address %> </p>
+	<p> <%= location.homepage %> </p>
+	<p> <%= location.phonenumber %> </p>
+<% else %>
+	<h2> There's no location for this event </h2>
+<% end %>
 
 <%= form_tag(controller: "events", action: "update_user_attendance", method: "post", event_id: @event.id) %>
 <%= select(:attendance, :attendance_status, options_for_select(Attendance::STATUSES.each_with_index.map { |i, s| [i, s] }, selected_status), {include_blank: true}) %>
 <%= submit_tag("Save") %>
+
+
+<% if belongs_to_me %>
+	<div class="event-buttons">
+		<%= link_to "Edit event", edit_event_path %>
+		<%= link_to "Delete event", event_path(@event), method: :delete, data: { confirm: "You are about to delete this event. Are you sure?" } %>
+	</div>
+<% end %>
+
+<div class="attendants">
+	<h2>These users are attending this event</h2>
+	<% attendants.each do |attendant| %>
+		<p> <%= attendant.email %> </p>
+	<% end %>
+</div>

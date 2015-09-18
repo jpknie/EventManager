@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150917072501) do
+ActiveRecord::Schema.define(version: 20150918092912) do
 
   create_table "attendances", force: true do |t|
     t.datetime "created_at"
@@ -28,10 +28,11 @@ ActiveRecord::Schema.define(version: 20150917072501) do
     t.date     "end_date"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "address"
-    t.string   "homepage"
-    t.string   "phonenumber"
+    t.integer  "user_id"
+    t.integer  "location_id"
   end
+
+  add_index "events", ["location_id"], name: "index_events_on_location_id"
 
   create_table "events_users", id: false, force: true do |t|
     t.integer "event_id", null: false
@@ -39,9 +40,10 @@ ActiveRecord::Schema.define(version: 20150917072501) do
   end
 
   create_table "locations", force: true do |t|
-    t.text     "address"
+    t.string   "name"
+    t.string   "address"
     t.string   "homepage"
-    t.string   "phone"
+    t.string   "phonenumber"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -3,9 +3,7 @@
   <%= event.input :description %>
   <%= event.input :start_date %>
   <%= event.input :end_date %>
-  <h2>Location information</h2>
-  <%= event.input :address %>
-  <%= event.input :homepage %>
-  <%= event.input :phonenumber %>
+  <h2>Location</h2>
+  <%= select(:event, :location_id, options_from_collection_for_select(Location.all, :id, :name), {include_blank: true}) %>
   <%= event.button :submit %>
 <% end %>
