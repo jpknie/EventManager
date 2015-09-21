@@ -52,7 +52,6 @@ class EventsController < ApplicationController
 		if Event.where(user_id: current_user.id).first.present?
 			event_id = params[:id]
 			Event.destroy(event_id)
-			Attendance.where(event_id: event_id).destroy_all
 		end
 		redirect_to events_path
 	end
