@@ -3,4 +3,5 @@ class Event < ActiveRecord::Base
 	has_many :users, through: :attendances
 	belongs_to :user
 	belongs_to :location
+	validates :title, presence: true
 end

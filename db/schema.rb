@@ -14,18 +14,18 @@
 ActiveRecord::Schema.define(version: 20150918092912) do
 
   create_table "attendances", force: true do |t|
+    t.integer  "user_id",           null: false
+    t.integer  "event_id",          null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
-    t.integer  "event_id"
     t.integer  "attendance_status"
   end
 
   create_table "events", force: true do |t|
-    t.string   "title"
-    t.text     "description"
-    t.date     "start_date"
-    t.date     "end_date"
+    t.string   "title",       null: false
+    t.text     "description", null: false
+    t.date     "start_date",  null: false
+    t.date     "end_date",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20150918092912) do
   end
 
   create_table "locations", force: true do |t|
-    t.string   "name"
+    t.string   "name",        null: false
     t.string   "address"
     t.string   "homepage"
     t.string   "phonenumber"
