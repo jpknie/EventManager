@@ -1,4 +1,9 @@
 class WelcomeController < ApplicationController
-  def index
-  end
+	def index
+  		if !current_user
+  			redirect_to '/users/sign_in'
+  		else
+  			redirect_to '/events'
+		end
+	end
 end
