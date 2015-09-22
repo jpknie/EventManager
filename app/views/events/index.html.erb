@@ -1,6 +1,14 @@
-<h1 class="brand-heading">Events for 2015</h1>
-<p class="intro-text">Please browse the available events.</p>
-<% @events.each do |event| %>
-	<h2><%= link_to event.title, event_path(event) %></h2>
-	<p> <%= event.description %></p>
-<% end %>
+<section id="event-listing" class="container-fluid content-section text-center">
+	<div class="row">
+    	<div class="col-lg-10 col-lg-offset-1">
+			<div id="entries">
+				<% @events.each do |event| %>
+					<div class="col-lg-6">
+						<h2><%= link_to event.title, event_path(event) %></h2>
+						<p><%= event.description %></p>
+					</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</section>

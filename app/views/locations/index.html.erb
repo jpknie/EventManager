@@ -1,3 +1,9 @@
-<% @locations.each do |location| %>
-	<h2><%= link_to location.name, location_path(location) %></h2>
-<% end %>
+<section class="content-section text-center container-fluid">
+	<h2>Available locations</h2>
+	<% @locations.each do |location| %>
+		<h2><%= link_to location.name, location_path(location) %></h2>
+	<% end %>
+	<div class="event-buttons col-lg-8 col-lg-offset-2">
+		<%= link_to "<button class='btn-default btn form-control'>Add new location</button>".html_safe, new_location_path %>
+	</div>
+</section>
