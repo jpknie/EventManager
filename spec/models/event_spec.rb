@@ -19,4 +19,5 @@ describe Event do
 		event.destroy
 		assert Attendance.where(event_id: event.id).present? == false
 	end
+	it "has chronological start and end date"
 end
