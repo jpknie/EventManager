@@ -11,8 +11,8 @@ describe Event do
 
 		#2) Create attendance instance and associate user and event with it
 		attendance = Attendance.new
-		attendance.user_id = event.id
-		attendance.event_id = user.id
+		attendance.user = user
+		attendance.event = event
 		attendance.save
 
 		#3) Destroy event instance, and assert that attendance is destroyed with it
