@@ -19,5 +19,7 @@ describe Event do
 		event.destroy
 		assert Attendance.where(event_id: event.id).present? == false
 	end
-	it "has chronological start and end date"
+	it "fails if start and end date are not in chronological order" do
+		expect(FactoryGirl.build(:event_invalid_dates)).to be_invalid
+	end
 end
