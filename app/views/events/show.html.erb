@@ -1,32 +1,65 @@
-<h2> <%= @event.title %> </h2>
-<p> <%= @event.description %> </p>
-<p> <%= @event.start_date %> to <%= @event.end_date %> </p>
-
-<% if location.present? %>
-	<h2> Location details </h2>
-	<p> <%= location.name %> </p>
-	<p> <%= location.address %> </p>
-	<p> <%= location.homepage %> </p>
-	<p> <%= location.phonenumber %> </p>
-<% else %>
-	<h2> There's no location for this event </h2>
-<% end %>
-
-<%= form_tag(controller: "events", action: "update_user_attendance", method: "post", event_id: @event.id) %>
-<%= select(:attendance, :attendance_status, options_for_select(Attendance::STATUSES.each_with_index.map { |i, s| [i, s] }, selected_status), {include_blank: true}) %>
-<%= submit_tag("Save") %>
-
-
-<% if belongs_to_me %>
-	<div class="event-buttons">
-		<%= link_to "Edit event", edit_event_path %>
-		<%= link_to "Delete event", event_path(@event), method: :delete, data: { confirm: "You are about to delete this event. Are you sure?" } %>
+<section id="event-poster" class="container content-section text-center">
+	<div class="row">
+    	<div class="col-lg-8 col-lg-offset-2">
+    		<h1 class="branding"><%= @event.title %></h1>
+    		<p class="intro-text"><%= @event.description %></p>
+			<p><%= @event.start_date %> to <%= @event.end_date %> </p>
+		</div>
 	</div>
-<% end %>
+</section>
+<section id="attendance-section" class="content-section text-center">
+	<div class="row">
+		<h1>Are you going to this event?</h1>
+		<div class="col-lg-8 col-lg-offset-2">
+			<%= form_tag(controller: "events", action: "update_user_attendance", method: "post", event_id: @event.id) %>
+			<%= select(:attendance, :attendance_status, options_for_select(Attendance::STATUSES.each_with_index.map { |i, s| [i, s] }, selected_status), {include_blank: true}, class: 'form-control', style: 'width: 10%; margin-left: auto; margin-right: auto;') %>
+			<br />
+			<%= submit_tag("Save", :class => 'btn btn-default') %>
+			<br /><br />
+		</div>
+	</div>
+</section>
+<section id="attendants" class="text-center">
+	<div class="row">
+		<div class="attendants">
+			<h2>These users are attending this event</h2>
+			<% attendants.each do |attendant| %>
+			<p> <%= attendant.email %> </p>
+			<% end %>
+		</div>
+	</div>
+</section>
+<section id="location-details" class="content-section text-center">
+	<div class="row">
+    	<div class="col-lg-8 col-lg-offset-2">
+    		<div id="map">
+			</div>
 
-<div class="attendants">
-	<h2>These users are attending this event</h2>
-	<% attendants.each do |attendant| %>
-		<p> <%= attendant.email %> </p>
-	<% end %>
-</div>
+			<% if location.present? %>
+				<h1>Location details</h1>
+				<ul class="list-unstyled">
+					<li><%= location.name %></li>
+					<li><%= location.address %></li>
+					<li><%= location.homepage %></li>
+					<li><%= location.phonenumber %></li>
+				</ul>
+			<% else %>
+				<h2> There's no location for this event </h2>
+			<% end %>
+		</div>
+	</div>
+</section>
+<% if belongs_to_me %>
+<section id="actions" class="content-section text-center">
+	<div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+		<h2>Management actions</h2>
+		<div class="row">
+			<div class="event-buttons col-lg-8 col-lg-offset-2">
+				<!-- THIS is awful hack, I KNOW! http://stackoverflow.com/questions/4418004/ruby-on-rails-link-to-button-css -->
+				<%= link_to "<button class='btn-default btn form-control'>Edit event</button>".html_safe, edit_event_path %>
+				<%= link_to "<button class='btn-default btn form-control'>Delete event</button>".html_safe, event_path(@event), method: :delete, data: { confirm: "You are about to delete this event. Are you sure?" } %>
+			</div>
+		</div>
+</section>
+<% end %>

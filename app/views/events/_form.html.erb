@@ -1,9 +1,10 @@
-<%= simple_form_for @event do |event| %>
+<%= simple_form_for(@event, html: { class: 'form-horizontal' }) do |event| %>
   <%= event.input :title %>
   <%= event.input :description %>
   <%= event.input :start_date %>
   <%= event.input :end_date %>
   <h2>Location</h2>
-  <%= select(:event, :location_id, options_from_collection_for_select(Location.all, :id, :name), {include_blank: true}) %>
-  <%= event.button :submit %>
+  <%= select(:event, :location_id, options_from_collection_for_select(Location.all, :id, :name), {include_blank: true}, class: 'form-control', style: 'width: 30%; margin-left: auto; margin-right: auto;') %>
+  <br>
+  <%= event.button :submit, :class => 'btn-primary btn form-control', :style => 'width: 50%' %>
 <% end %>
