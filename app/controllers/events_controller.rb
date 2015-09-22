@@ -16,19 +16,17 @@ class EventsController < ApplicationController
 	end
 
 	def show
-		event_id = params[:id]
-		location_id = Event.where(id: event_id).first.location_id
-		attendance = Attendance.where(user_id: current_user.id, event_id: event_id).first
+		attendance = Attendance.where(user: current_user, event_id: @event.id).first
 		if !attendance.present?
 			attendance = Attendance.new
-			attendance.user_id = current_user.id
-			attendance.event_id = params[:id]
+			attendance.user = current_user
+			attendance.event = @event
 			attendance.attendance_status = 0
 			attendance.save
 		end
-		location = Location.where(id: location_id).first
-		belongs_to_me = Event.where(user_id: current_user.id).first.present?
-		attendants = User.joins(:attendances).where(attendances: { event_id: event_id, attendance_status: Attendance::STATUSES.rindex("Yes")})
+		location = @event.location
+		belongs_to_me = @event.user == current_user
+		attendants = User.joins(:attendances).where(attendances: { event_id: @event.id, attendance_status: Attendance::STATUSES.rindex("Yes")})
 		render locals: {
 			attendants: attendants,
 			belongs_to_me: belongs_to_me,
@@ -38,10 +36,15 @@ class EventsController < ApplicationController
 	end
 
 	def update
-		if @event.update(event_params)
-			redirect_to @event
+		if @event.user == current_user
+			if @event.update(event_params)
+				redirect_to @event
+			else
+				render 'edit'
+			end
+		# Do not allow to update, redirect to event
 		else
-			render 'edit'
+			redirect_to @event
 		end
 	end
 
@@ -49,9 +52,9 @@ class EventsController < ApplicationController
 	end
 
 	def destroy
-		if Event.where(user_id: current_user.id).first.present?
-			event_id = params[:id]
-			Event.destroy(event_id)
+		# Check that current user owns the event (created it), and then allow to destroy it
+		if @event.user == current_user
+			@event.destroy
 		end
 		redirect_to events_path
 	end
@@ -62,7 +65,7 @@ class EventsController < ApplicationController
 
 	def update_user_attendance
 		attendance_status = params[:attendance][:attendance_status].to_i
-		attendance = Attendance.where(user_id: current_user.id, event_id: params[:event_id]).first
+		attendance = Attendance.where(user: current_user, event_id: params[:event_id]).first
 		attendance.attendance_status = attendance_status
 		attendance.save
 		redirect_to event_path(params[:event_id])
@@ -71,7 +74,7 @@ class EventsController < ApplicationController
 	private
 
 	def event_params
-		params.require(:event).permit(:title, :description, :start_date, :end_date, :address, :homepage, :phonenumber, :location_id)
+		params.require(:event).permit(:title, :description, :start_date, :end_date, :location_id)
 	end
 
 	def find_event

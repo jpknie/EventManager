@@ -1,9 +1,14 @@
 require 'rails_helper'
 
-describe Event do
+describe User do
 	it "has a valid factory" do
-		expect(FactoryGirl.create(:event)).to be_valid
+		expect(FactoryGirl.create(:user)).to be_valid
 	end
+
+	it "fails to create user instance with invalid email format" do
+		expect(FactoryGirl.build(:user_invalid_email)).to be_invalid
+	end
+
 	it "destroys attendances when destroyed" do
 		#1) Create user and event instances
 		event = FactoryGirl.create(:event)
@@ -15,11 +20,8 @@ describe Event do
 		attendance.event = event
 		attendance.save
 
-		#3) Destroy event instance, and assert that attendance is destroyed with it
-		event.destroy
-		assert Attendance.where(event_id: event.id).present? == false
-	end
-	it "fails if start and end date are not in chronological order" do
-		expect(FactoryGirl.build(:event_invalid_dates)).to be_invalid
+		#3) Destroy user instance, and assert that attendance is destroyed with it
+		user.destroy
+		assert Attendance.where(user_id: user.id).present? == false
 	end
 end
