@@ -16,7 +16,6 @@ class EventsController < ApplicationController
 	end
 
 	def show
-<<<<<<< HEAD
 		attendance = Attendance.where(user: current_user, event_id: @event.id).first
 		if !attendance.present?
 			attendance = Attendance.new
@@ -28,7 +27,6 @@ class EventsController < ApplicationController
 		location = @event.location
 		belongs_to_me = @event.user == current_user
 		attendants = User.joins(:attendances).where(attendances: { event_id: @event.id, attendance_status: Attendance::STATUSES.rindex("Yes")})
->>>>>>> d9d46d91b13ec5a9ea2f2db76f1463335de3a532
 		render locals: {
 			attendants: attendants,
 			belongs_to_me: belongs_to_me,
