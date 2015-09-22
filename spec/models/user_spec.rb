@@ -4,6 +4,11 @@ describe User do
 	it "has a valid factory" do
 		expect(FactoryGirl.create(:user)).to be_valid
 	end
+
+	it "fails to create user instance with invalid email format" do
+		expect(FactoryGirl.build(:user_invalid_email)).to be_invalid
+	end
+
 	it "destroys attendances when destroyed" do
 		#1) Create user and event instances
 		event = FactoryGirl.create(:event)
