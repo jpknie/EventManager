@@ -1,4 +1,9 @@
+require 'auth_utils'
+
 class EventsController < ApplicationController
+	before_action do
+		check_user_and_redirect(current_user)
+	end
 	before_action :find_event, only: [:show, :update, :edit, :destroy]
 
 	def new

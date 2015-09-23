@@ -1,4 +1,7 @@
 class LocationsController < ApplicationController
+	before_action do
+		check_user_and_redirect(current_user)
+	end
 	before_action :find_location, only: [:show, :update, :edit, :destroy]
 
 	def new
