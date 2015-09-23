@@ -1,3 +1,13 @@
+<section id="event-filters" class="content-section text-center">
+<div class="form-horizontal">
+<label for="event">Filter by location:</label>
+<%= select(:event, :location_id, options_from_collection_for_select(Location.all, :id, :name),
+	{include_blank: true}, class: 'form-control', style: 'width: 30%; margin-left: auto; margin-right: auto;')
+%>
+by month:
+<%= select_tag('Month', ['Jan','Feb'], class: 'form-control', style: 'width: 30%; margin-left: auto; margin-right: auto;') %>
+</div>
+</section>
 <section id="event-listing" class="container-fluid content-section text-center">
 	<div class="row">
     	<div class="col-lg-10 col-lg-offset-1">
